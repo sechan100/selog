@@ -14,4 +14,6 @@ public interface ArticleMapper {
 	
 	public ArticleDto getArticleByUri(Map<String, Object> uri);
 
+	public void doLike(Map<String, Object> likesMap);
+
 }

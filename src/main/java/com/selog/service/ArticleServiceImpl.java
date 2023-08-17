@@ -31,6 +31,12 @@ public class ArticleServiceImpl implements ArticleService{
 	}
 
 
+	@Override
+	public void doLike(Map<String, Object> likesMap) {
+		articleMapper.doLike(likesMap);
+	}
+
+
 
 	
 }

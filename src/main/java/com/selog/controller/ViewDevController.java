@@ -8,11 +8,13 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import com.selog.dto.ArticleDto;
+import com.selog.dto.MemberDto;
 import com.selog.dto.MsgDtoBuilder;
 import com.selog.service.ArticleService;
-import com.selog.temporaryloginmodule.LoginedMemberFactory;
+import com.selog.service.MemberService;
 
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 
 @Controller
 public class ViewDevController {
@@ -33,21 +35,29 @@ public class ViewDevController {
 
 
 	@Autowired
-	private ArticleService service;
+	private ArticleService articleService;
+	
+	@Autowired
+	private MemberService memberService;
 	
 	
-	/*
-	 * main article page
-	 */
+	// 메인 페이지.
 	@GetMapping("/selog")
 	public String sechanboardMainPage(Model model, HttpServletRequest request) {
 
 		
-		// articles list
-		List<ArticleDto> articles = service.getArticles();
-
+		// 게시글 목록 불러오기.
+		List<ArticleDto> articles = articleService.getArticles();
 		
-		model.addAttribute("loginedMember", LoginedMemberFactory.getLoginedMember());
+		
+		
+		// 개발할 때, 서버 재시작 할 때마다 로그인하는 작업을 없애기 위해서 자동적으로 로그인.
+		MemberDto registedMember =  memberService.getMemberByUsername("sechan");
+		HttpSession session = request.getSession();
+		session.setAttribute("user", registedMember);
+		// #######################################
+		
+		
 		model.addAttribute("articles", articles);
 
 		return "/selog";

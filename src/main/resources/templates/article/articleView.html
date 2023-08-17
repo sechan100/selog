@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html xmlns:th="https://www.thymeleaf.org">
-<head th:replace="/fragments/layoutFragments :: head(title='', cssUrl='/css/article/articleView.css')" />  
+<head th:replace="/fragments/layoutFragments :: head(title='', cssUrl='/css/memberPage/articleView.css')" />  
 <body class="vlg-dark">
-	<nav th:replace="/fragments/layoutFragments :: nav( ${session.user} )"></nav>
+	<nav th:replace="/fragments/layoutFragments :: nav( ${loginedMember} )"></nav>
 
     <div class="main-container">
 
@@ -65,13 +65,7 @@
     </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
-    <script type="text/javascript" src="/js/article/articleView.js"></script>
-    <script th:inline="javascript">
-    /*<![CDATA[*/
-        const articleId =  $.parseJSON("[[ ${article.id} ]]");
+    <script src="/js/memberPage/articleView.js"></script>
 
-
-    /*]]>*/
-    </script>
 </body>
 </html>

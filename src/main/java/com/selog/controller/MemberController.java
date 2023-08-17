@@ -10,7 +10,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.selog.dto.MemberDto;
 import com.selog.dto.MsgDtoBuilder;
 import com.selog.service.MemberService;
-import com.selog.temporaryloginmodule.LoginedMemberFactory;
+
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 
 
 @Controller
@@ -23,45 +25,51 @@ public class MemberController {
 
 	// ###########[ login ]############################################################################################
 
-	// login form page
+	// 로그인 폼 페이지.
 	@GetMapping("/login")
 	public String loginPage(Model model, @RequestParam(required = false) String fail) {
 
 		model.addAttribute("member", new MemberDto());
+		
+		// 만약, 로그인에 실패했을 경우, 실패 사유를 같이 페이지로 전송.
 		model.addAttribute("fail", fail);
 
 		return "/member/loginForm";
 	}
 
-	// login process logic
+	
+	// 로그인 프로세스 로직.
 	@PostMapping("/loginPrcs")
-	public String loginPrcs(Model model, MemberDto attemptingLoginMember) {
+	public String loginPrcs(HttpServletRequest request, Model model, MemberDto attemptingLoginMember) {
 		
-		// get member data from DB by login id.
+		// 로그인 id로 기존의 사용자 정보를 DB에서 가져온다.
 		MemberDto registedMember =  service.getMemberByUsername(attemptingLoginMember.getUsername());
 	
-	
-		// registed member doesn't exist..
+
+		
+		// [로그인 실패]: 계정이 존재하지 않음. -> fail=id (아이디가 없다는 것이 곧 계정이 존재하지 않는다는 의미)
 		if(registedMember == null){
 			return "redirect:/login?fail=id";
 		
 		
-		// password doesn't correspond..
+		// [로그인 실패]: 비밀번호 불일치.
 		} else if( !attemptingLoginMember.getPassword().equals( registedMember.getPassword() ) ){
 			
 			return "redirect:/login?fail=pw";
 
 
 			
-		// login success
+		// [로그인 성공]
 		} else {
 			
 			// temporary login member setting.
-			LoginedMemberFactory.setLoginedMember(registedMember);
+			HttpSession session = request.getSession();
+			
+			session.setAttribute("user", registedMember);
 			
 			// log
-			System.out.println("============================================================================\n");
-			System.out.println(LoginedMemberFactory.getLoginedMember().toString());
+			System.out.println("=====[ New Login ]============================================================\n");
+			System.out.println(registedMember.toString());
 			System.out.println("\n============================================================================");
 			
 			return "redirect:/";
