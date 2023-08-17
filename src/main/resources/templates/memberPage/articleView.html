@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org">
+<head th:replace="/fragments/layoutFragments :: head(title='', cssUrl='/css/memberPage/memberPage.css')" />  
+<body class="vlg-dark">
+	<nav th:replace="/fragments/layoutFragments :: nav( ${loginedMember} )"></nav>
+
+    <div class="main-container">
+
+
+        <div class="article-container" th:object="${article}">
+            
+            <h1>[[${article.title}]]</h1>
+
+            <div class="top-info-container">
+
+                <span>
+                    <a th:href="|/@${article.authorUsername}|">[[ ${article.authorUsername} ]]</a>
+                    <span>•</span>
+                    <span th:text="${article.postDate}"></span>
+                </span>
+
+                <span class="tool-btn-box">
+                    <a href="">통계</a>
+                    <a href="">수정</a>
+                    <a href="">삭제</a>
+                </span>
+
+            </div>
+            
+            <div class="tag-container">
+                <span class="tag">Tag1</span>
+                <span class="tag">Tag2</span>
+            </div>
+
+
+            <div class="side-option-container">
+                <div class="side-option-box">
+                    <div class="side-option">
+                        <button>♡</button>
+                        <span>32</span>
+                        <button>♧</button>
+                    </div>
+                </div>
+            </div>
+    
+
+            <div class="series-box">
+                <span class="box1">
+                    <span>Series Title</span>
+                    <span id="bookmark">
+                        <div></div>
+                        <div></div>
+                    </span>
+                </span>
+                <br><br><br><br>
+            </div>
+
+            <div class="content-box" th:utext="${article.content}"></div>
+
+        </div>
+
+        
+
+
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
+    <script src="/js/memberPage/articleView.js"></script>
+
+</body>
+</html>

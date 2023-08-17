@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<!-- ============== head fragment part ============= -->
+<head th:fragment="head(title, cssUrl)">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" th:href="@{/css/fragments.css}">
+    <link rel="stylesheet" th:href="@{${cssUrl}}">
+    <title>[[ ${title} ]]</title>
+</head>
+<!-- =============================================== -->
+<body class="vlg-dark">
+
+<!-- ====================== nav fragment ======================== -->
+    <nav th:fragment="nav(loginedMember)" class="navbar navbar-dark navbar-expand-md theme-dark">
+        <div class="container ml-10 mr-10">
+            <a href="/" class="navbar-brand">Selog</a>
+	
+            <div>
+                <ul class="navbar-nav">
+
+                    <li class="nav-item">
+                        <a class="vlg-link" href="#">#</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="vlg-link" href="">#</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="vlg-link" href="">새 글 작성</a>
+                    </li>
+
+                    <li th:if="${loginedMember} == null" class="nav-item">
+                        <a class="vlg-link" href="/login">로그인</a>
+                    </li>
+
+                    <li th:unless="${loginedMember} == null" class="nav-item">
+                        <a class="vlg-link" th:text="|${loginedMember.getName()} 님|" href="/#"></a>
+                    </li>
+
+                </ul>
+            </div>
+	
+        </div>
+	</nav>
+	<!-- =============================================== -->
+	
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
+</body>
+</html>

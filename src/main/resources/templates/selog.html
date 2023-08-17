@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org">
+<head th:replace="/fragments/layoutFragments :: head(title='selog', cssUrl='/css/selog.css')" />  
+<body class="vlg-dark">
+	<nav th:replace="/fragments/layoutFragments :: nav( ${loginedMember} )"></nav>
+
+
+    <section id="article-container" th:object="${articles}">
+
+            
+        <div class="article-box text-white" th:each="article : ${articles}">
+
+            <a th:href="|/@${article.getAuthorUsername()}/${article.getMemberPageId()}|">
+                <img th:src="${article.getImg()}" width="100%" />
+            </a>  
+
+            <a th:href="|/@${article.getAuthorUsername()}/${article.getMemberPageId()}|">
+                <section>
+                    <h4 th:text="${article.getTitle()}"></h4>
+                    <p th:text="${article.getContent()}"></p>
+        
+        
+                    <div class="sub-info"></div>
+        
+                </section>
+            </a>  
+
+            <a th:href="|/@${article.getAuthorUsername()}/${article.getMemberPageId()}|">
+                <div class="sub-bar"></div>
+            </a>  
+
+        </div>
+
+
+
+
+
+    </section>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
+    <script src="/js/selog.js"></script>
+
+</body>
+</html>

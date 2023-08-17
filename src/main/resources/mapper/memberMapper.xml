@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+ <mapper namespace="com.selog.mapper.MemberMapper">
+ 
+ 	<insert id="insertNewMember" parameterType="MemberDto">
+	<![CDATA[
+		INSERT INTO 
+	 		member
+	 		( name
+	 		, username
+	 		, password
+	 		, email
+	 		)
+	 	VALUES
+		 	( #{name}
+		 	, #{username}
+		 	, #{password}
+		 	, #{email}
+		 	)
+	]]>
+ 	</insert>
+ 	
+ 	<select id="getMemberByUsername" parameterType="String" resultType="MemberDto">
+ 	<![CDATA[
+ 		SELECT 
+ 			*
+ 		FROM
+ 			member
+ 		WHERE
+ 			username=#{username} 		
+ 	]]>
+ 	</select>
+ 
+ 	<select id="getMemberById" parameterType="int" resultType="MemberDto">
+ 	<![CDATA[
+ 		SELECT 
+ 			*
+ 		FROM 
+ 			member
+ 		WHERE 
+ 			id = #{id}
+ 	]]>
+ 	</select>
+ 
+ </mapper>

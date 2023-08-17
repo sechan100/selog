@@ -1,0 +1,123 @@
+:root {
+    --vlg-dark : #121212;
+    --vlg-green: #63E6BE;
+    --vlg-green-hover: #4db596;
+    --vlg-bg: #272727;
+    }
+
+
+
+/* 
+* ######################################
+* initialize
+* ######################################
+*/
+a{
+    text-decoration: none !important;
+    color: whitesmoke;
+}
+
+a:hover{
+    color: var(--vlg-green);
+}
+
+
+ul{
+    list-style: none;
+}
+
+body{
+    color: whitesmoke;
+}
+
+/* 
+* ######################################
+* main css
+* ######################################
+*/
+
+
+/* bootstrap container bg change -> velog dark theme color */
+.container{
+    background-color: #121212;
+
+}
+
+/* navbar-brand text */
+.navbar-brand{
+    font-size: 30px;
+}
+
+nav ul > li > a{
+    color: whitesmoke;
+    padding: 0 10px;
+}
+
+
+
+
+/* 
+* ######################################
+* custom
+* ######################################
+*/
+
+/* dark theme bg */
+.vlg-dark{
+    background-color: #121212;
+}
+
+
+/* vlg-btn */
+.vlg-btn{
+    border-radius: 20px;
+    border: 1px solid white;
+    background-color: var(--vlg-dark);
+    color: white;
+    font-weight: bold;
+    padding: 8px 20px;
+}
+.vlg-btn:hover{
+    cursor: pointer;
+    background-color: whitesmoke;
+    transition: all .3s;
+    color: black;
+}
+
+
+
+/* vlg-btn */
+.vlg-btn-green{
+    border-radius: 20px;
+    border: 0;
+    background-color: var(--vlg-green);
+    color: rgb(53, 53, 53);
+    font-weight: bold;
+    padding: 10px 23px;
+}
+.vlg-btn-green:hover{
+    cursor: pointer;
+    background-color: var(--vlg-green-hover);
+    transition: all .3s;
+    color: black;
+}
+
+
+
+/* vlg-link */
+vlg-link{
+    color: whitesmoke;
+}
+
+.vlg-link:hover{
+    color: var(--vlg-green-hover);
+}
+
+
+.vlg-link-green{
+    color: var(--vlg-green);
+}
+
+.vlg-link-green:hover{
+    color: var(--vlg-green-hover);
+}

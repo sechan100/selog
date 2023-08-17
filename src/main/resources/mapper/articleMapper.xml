@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+ <mapper namespace="com.selog.mapper.ArticleMapper">
+ 
+ 	
+ 	<select id="getArticles" resultMap="ArticleDtoMap">
+ 	<![CDATA[
+ 		SELECT 
+ 			*
+ 		FROM
+ 			article		
+ 	]]>
+ 	</select>
+ 		
+ 	<resultMap id="ArticleDtoMap" type="ArticleDto">
+ 		<id column="id" property="id" />
+ 		<result column="title" property="title" />
+ 		<result column="content" property="content" />
+ 		<result column="img" property="img" />
+ 		<result column="postDate" property="postDate" />
+ 		<result column="authorId" property="authorId" />
+ 		<result column="likes" property="likes" />
+ 		<result column="hits" property="hits" />
+ 		<association column="authorId" property="author" select="getMemberById" />
+ 	</resultMap>
+
+	<select id="getMemberById" parameterType="int" resultType="MemberDto">
+	<![CDATA[
+ 		SELECT 
+ 			*
+ 		FROM 
+ 			member
+ 		WHERE 
+ 			id = #{id}
+	]]>
+	</select>
+ 
+ 
+ 	<select id="getArticleByUri" parameterType="Map" resultType="ArticleDto">
+ 	<![CDATA[
+ 		SELECT 
+ 			* 
+ 		FROM 
+ 			article
+ 		WHERE
+ 			   authorUsername = #{username}
+ 			&& memberPageId = #{memberPageId}
+ 	]]>
+ 	</select>
+ </mapper>

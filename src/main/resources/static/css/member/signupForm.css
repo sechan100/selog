@@ -1,0 +1,73 @@
+:root {
+    --vlg-dark : #121212;
+    --vlg-green: #63E6BE;
+    --vlg-green-hover: #4db596;
+    }
+
+.container{
+    margin-top: 70px;
+
+
+}
+
+/* greeting div tag */
+#greetings{
+    color: white;
+}
+
+/* greeting div tag > h1 */
+#greetings>h1{
+    font-size: 60px;
+}
+
+
+/* label */
+div.inputbox > label{
+    color: white;
+    margin-right: 340px;
+    
+}
+
+form > input[type="submit"]{
+    margin-left: 200px;
+}
+
+/* 아이디 입력창 + 비밀번호 입력창 */
+form input[type="text"], input[type="password"]{
+    border: 0;
+    width: 400px;
+    height: 50px;
+    border-bottom: 1px solid rgb(214, 214, 214);
+    background-color: var(--vlg-dark);
+    color: white;
+    
+}
+
+/* (label + input) 같이 들어있는 div */
+form>div.inputbox{
+    padding: 20px 0;
+}
+
+
+
+/* ***** 아이디, 비밀번호 입력창 focus시... *************** */
+
+/* input */
+form input[type="text"]:focus, 
+form input[type="password"]:focus{
+    outline: none;
+    border-bottom: 2.5px solid var(--vlg-green);
+}
+
+
+/* input에 focus하면 js로 해당 클래스 append */
+.focused-label{
+    color: var(--vlg-green) !important;
+}
+
+/* ************************************************* */
+
+
+div#footer-bar > a {
+    margin: 0 20px;
+}
