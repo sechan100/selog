@@ -36,9 +36,13 @@
             <div class="side-option-container">
                 <div class="side-option-box">
                     <div class="side-option">
-                        <button id="likes-btn">♡</button>
-                        <span>32</span>
-                        <button>♧</button>
+                        <button class="side-btn animate__heartBeat" id="likes-btn">
+                            <img class="love-icon" src="/img/heart_unliked.png" width="25px" height="25px">
+                        </button>
+                        <div class="like-num">32</div>
+                        <button class="side-btn" id="share-btn">
+                            <img class="share-icon" src="/img/share.png" width="25px" height="25px">
+                        </button>
                     </div>
                 </div>
             </div>
@@ -68,8 +72,9 @@
     <script type="text/javascript" src="/js/article/articleView.js"></script>
     <script th:inline="javascript">
     /*<![CDATA[*/
-        const articleId =  $.parseJSON("[[ ${article.id} ]]");
 
+        const articleId =  $.parseJSON("[[ ${article.id} ]]");
+        const isLiked = $.parseJSON("[[ ${isLiked} ]]");
 
     /*]]>*/
     </script>

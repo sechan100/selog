@@ -8,13 +8,11 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import com.selog.dto.ArticleDto;
-import com.selog.dto.MemberDto;
 import com.selog.dto.MsgVo;
 import com.selog.service.ArticleService;
 import com.selog.service.MemberService;
 
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpSession;
 
 @Controller
 public class ViewDevController {

@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.selog.dto.ArticleDto;
 import com.selog.dto.MemberDto;
+import com.selog.dto.MsgVo;
 import com.selog.service.ArticleService;
 import com.selog.service.MemberService;
 
@@ -37,6 +38,7 @@ public class ArticleController {
 	public String showArticle(
 		  @PathVariable String username 
 		, @PathVariable int memberPageId
+		, HttpServletRequest request
 		, Model model) {
 		
 		
@@ -45,10 +47,35 @@ public class ArticleController {
 			uri.put("username", username);
 			uri.put("memberPageId", memberPageId);
 			
-			
 		// uri를 통해서 매핑된 게시글 가져오기.
 		ArticleDto article = articleService.getArticleByUri(uri);
+		
+
+		HttpSession session = request.getSession(false);	
+		
+		boolean isLiked = false;
+		
+		// 로그인 상태라면 게시글에 대한 좋아요 정보를 가져온다.
+		if(session.getAttribute("user") != null){
+			
+			@SuppressWarnings("unchecked")
+			List<Map<String, Integer>> likes =  (List<Map<String, Integer>>) session.getAttribute("likes");
+			
+			
+			for(Map<String, Integer> like : likes){
+				
+				// [좋아요를 누른 적이 있다면]: 게시글 아이디가 같으면 해당 게시글에 대한 좋아요 정보가 존재하는 것이다.
+				if(like.get("article_id") == article.getId()){
+					isLiked = true;
+					break;
+				}
+			}
+			
+		}
+		model.addAttribute("isLiked", isLiked);
+			
 		model.addAttribute("article", article);
+			
 		
 		return "/memberPage/articleView";
 	}
@@ -70,8 +97,8 @@ public class ArticleController {
 		HttpSession session = request.getSession(false);
 		
 		
-		// [session이 존재하는 경우]: 로그인 상태.
-		if(session != null){
+		// [session에 저장된 user가 존재하는 경우]: 로그인 상태.
+		if(session.getAttribute("user") != null){
 			
 			// session에 넣어준 likes 리스트를 받아오기.
 			@SuppressWarnings("unchecked")
@@ -136,8 +163,12 @@ public class ArticleController {
 		// [session 존재하지 않음]
 		} else {
 			
+			// 메세지 객체를 생성해서 로그인 후 이용 가능 안내 페이지로 보냄.
+			MsgVo msg = new MsgVo();
+			model.addAttribute("msg", msg);
+			
+			return "/util/msgPage";
 		}
-		
 		
 		
 		Map<String, Object> uri = new HashMap<>();

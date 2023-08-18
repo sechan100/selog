@@ -109,8 +109,8 @@
 .side-option-box{
     position: absolute;
     top: 360px;
-    left: 300px;
-    width: 30px;
+    left: 270px;
+    width: 75px;
     background-color: var(--vlg-dark);
 }
 
@@ -119,8 +119,34 @@
 .side-option{
     position: sticky;
     top: 200px;
-    left: 300px;
+    background-color: var(--vlg-bg);
+    width: 75px;
+    padding: 10px;
+    border-radius: 50px;
+    border: 1px solid rgb(54, 54, 54);
 }
 
 
 
+/* ############## */
+.side-btn {
+    width: 55px;
+    height: 55px;
+    background-color: var(--vlg-bg);
+    border-radius: 50%;
+    border: 1px solid gray ;
+}
+
+.btn-active {
+    background-color: var(--vlg-green) !important;
+}
+
+.side-btn:hover {
+    border-color: #f5f5f5 ;
+}
+
+
+.like-num{
+    padding: 3px 0 10px 0;
+    text-align: center;
+}
