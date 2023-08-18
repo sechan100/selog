@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 import com.selog.dto.ArticleDto;
 import com.selog.dto.MemberDto;
-import com.selog.dto.MsgDtoBuilder;
+import com.selog.dto.MsgVo;
 import com.selog.service.ArticleService;
 import com.selog.service.MemberService;
 
@@ -24,12 +24,14 @@ public class ViewDevController {
 	 */
 	@GetMapping("/msg")
 	public String dkfd(Model model) {
-
-		model.addAttribute("msg",
-			new MsgDtoBuilder()
-				.addMsgTitle("이보람님, 회원가입이 완료되었습니다!")
-				.addmsgContent("확인을 누르면 메인페이지로 이동합니다.")
-				.addAimUrl("/"));
+		
+		MsgVo msg = new MsgVo();
+			msg.setMsgTitle("이보람님, 회원가입이 완료되었습니다!");
+			msg.setMsgContent("확인을 누르면 메인페이지로 이동합니다.");
+			msg.setAimUrl("/");
+			
+			
+			model.addAttribute("msg", msg);
 		return "/util/msgPage";
 	}
 
@@ -51,11 +53,11 @@ public class ViewDevController {
 		
 		
 		
-		// 개발할 때, 서버 재시작 할 때마다 로그인하는 작업을 없애기 위해서 자동적으로 로그인.
-		MemberDto registedMember =  memberService.getMemberByUsername("sechan");
-		HttpSession session = request.getSession();
-		session.setAttribute("user", registedMember);
-		// #######################################
+//		// 개발할 때, 서버 재시작 할 때마다 로그인하는 작업을 없애기 위해서 자동적으로 로그인.
+//		MemberDto autoLoginMember =  memberService.getMemberByUsername("sechan");
+//		HttpSession session = request.getSession();
+//		session.setAttribute("user", autoLoginMember);
+//		// #######################################
 		
 		
 		model.addAttribute("articles", articles);

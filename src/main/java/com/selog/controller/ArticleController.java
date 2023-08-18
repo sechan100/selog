@@ -1,6 +1,7 @@
 package com.selog.controller;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +12,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.selog.dto.ArticleDto;
+import com.selog.dto.MemberDto;
 import com.selog.service.ArticleService;
+import com.selog.service.MemberService;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -21,7 +24,10 @@ public class ArticleController {
 
 	
 	@Autowired
-	private ArticleService service;
+	private ArticleService articleService;
+	
+	@Autowired
+	private MemberService memberService;
 	
 	
 	/*
@@ -41,7 +47,7 @@ public class ArticleController {
 			
 			
 		// uri를 통해서 매핑된 게시글 가져오기.
-		ArticleDto article = service.getArticleByUri(uri);
+		ArticleDto article = articleService.getArticleByUri(uri);
 		model.addAttribute("article", article);
 		
 		return "/memberPage/articleView";
@@ -49,16 +55,13 @@ public class ArticleController {
 
 	
 	/*
-	 * 추천(likes) 처리 로직.
+	 * 좋아요(likes) 처리 로직.
 	 */
 	@GetMapping("/@{username}/{memberPageId}/likes")
 	public String doLikes(
 		  @PathVariable String username 
 		, @PathVariable int memberPageId
-		
-		, @RequestParam String action
 		, @RequestParam String articleId
-		
 		, HttpServletRequest request
 		, Model model) {
 		
@@ -67,35 +70,81 @@ public class ArticleController {
 		HttpSession session = request.getSession(false);
 		
 		
-		
-		
-		
-		
-		// 좋아요를 누른 경우.
-		if(action.equals("like")){
+		// [session이 존재하는 경우]: 로그인 상태.
+		if(session != null){
 			
-			// VO 객체를 만들지 않고, Map으로 DB 전달.
-			Map<String, Object> likesMap = new HashMap<>();
-				likesMap.put("article_id", articleId);
-//				likesMap.put("member_id", );
-			
-			service.doLike(likesMap);
+			// session에 넣어준 likes 리스트를 받아오기.
+			@SuppressWarnings("unchecked")
+			List<Map<String, Integer>> likes =  (List<Map<String, Integer>>) session.getAttribute("likes");
 			
 			
+			boolean isLiked = false;
 			
-		// 좋아요를 취소한 경우.
+			
+			// [좋아요를 누른 게시물이 하나라도 존재하는 경우] -> 해당 게시글과 일치하는 좋아요 정보가 있는지 찾음.
+			// 좋아요 정보가 아예 존재하지 않는다면 바로 좋아요 로직 실행.
+			if(likes != null) {
+				for(Map<String, Integer> like : likes){
+					
+					int likeArticleId = like.get("article_id");
+					
+					// [해당 게시물에 좋아요를 누른적이 있는 경우]: 좋아요한 게시글의 아이디와 해당 게시글의 아이디가 같음.
+					if(likeArticleId == Integer.parseInt(articleId)){
+						isLiked = true;
+						break;
+					}
+				}
+			}
+			
+			
+			// [좋아요 취소]: like에 레코드가 이미 존재하는 경우.
+			if(isLiked){
+			
+				// likes 테이블에서 레코드를 삭제하기.
+				Map<String, Object> likeMap = new HashMap<>();
+					likeMap.put("article_id", articleId);
+					likeMap.put("member_id", ( (MemberDto) session.getAttribute("user")).getId());
+				articleService.cancelLike(likeMap);
+				
+				
+				// 세션 초기화.
+				session.removeAttribute("likes");
+			
+				List<Map<String, Integer>> newLikes  = memberService.getLikes(( (MemberDto) session.getAttribute("user")).getId());
+				session.setAttribute("likes", newLikes);
+				
+			// [좋아요 누르기]: like에 레코드가 존재하지 않는 경우.
+			} else {
+				
+				
+				// likes 테이블에 레코드를 추가하기.
+				Map<String, Object> likeMap = new HashMap<>();
+					likeMap.put("article_id", articleId);
+					likeMap.put("member_id", ( (MemberDto) session.getAttribute("user")).getId());
+				articleService.doLike(likeMap);
+				
+				
+				// 세션 초기화.
+				session.removeAttribute("likes");
+			
+				List<Map<String, Integer>> newLikes  = memberService.getLikes(( (MemberDto) session.getAttribute("user")).getId());
+				session.setAttribute("likes", newLikes);
+			}
+			
+			
+			
+		// [session 존재하지 않음]
 		} else {
 			
-			
-			
-			
 		}
+		
+		
 		
 		Map<String, Object> uri = new HashMap<>();
 			uri.put("username", username);	
 			uri.put("memberPageId", memberPageId);
 			
-		ArticleDto article = service.getArticleByUri(uri);
+		ArticleDto article = articleService.getArticleByUri(uri);
 		model.addAttribute("article", article);
 		
 		return String.format("redirect:/@%s/%d", username, memberPageId);

@@ -11,7 +11,7 @@ $(".side-option-box").ready(()=>{
 const likes_btn = $("#likes-btn");
 
 likes_btn.on('click', ()=>{
-    location.href = $(location).attr('href') + "/likes?action=like&articleId=" + articleId;
+    location.href = $(location).attr('href') + "/likes?articleId=" + articleId;
 })
 
 

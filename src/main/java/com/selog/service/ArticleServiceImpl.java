@@ -37,6 +37,27 @@ public class ArticleServiceImpl implements ArticleService{
 	}
 
 
-
+	@Override
+	public void cancelLike(Map<String, Object> likeMap) {
+			articleMapper.cancelLike(likeMap);
+	}
 	
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,5 +1,8 @@
 package com.selog.mapper;
 
+import java.util.List;
+import java.util.Map;
+
 import org.apache.ibatis.annotations.Mapper;
 
 import com.selog.dto.MemberDto;
@@ -11,6 +14,8 @@ public interface MemberMapper {
 	public MemberDto getMemberByUsername(String id);
 
 	public MemberDto getMemberById(int id);
+
+	public List<Map<String, Integer>> getLikes(int memberId);
 
 }
 

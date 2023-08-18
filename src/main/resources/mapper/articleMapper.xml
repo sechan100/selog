@@ -4,19 +4,7 @@
   
  <mapper namespace="com.selog.mapper.ArticleMapper">
  
- 
- 	<select id="getArticles" resultMap="ArticleDtoMap">
- 	<![CDATA[
- 		SELECT 
- 			*
- 		FROM
- 			article		
- 	]]>
- 	</select>
- 	
- 	
- 	<!--****************** article과 author(MemberDto 객체)를 같이 매핑해서 가져오기. ******************-->
- 	<select id="getArticleByUri" parameterType="Map" resultType="ArticleDto">
+  	<select id="getArticleByUri" parameterType="Map" resultType="ArticleDto">
  	<![CDATA[
  		SELECT 
  			* 
@@ -27,6 +15,18 @@
  			&& memberPageId = #{memberPageId}
  	]]>
  	</select>
+ 	
+ 	
+ 	<!--****************** article과 author(MemberDto 객체)를 같이 매핑해서 가져오기. ******************-->
+ 	<select id="getArticles" resultMap="ArticleDtoMap">
+ 	<![CDATA[
+ 		SELECT 
+ 			*
+ 		FROM
+ 			article		
+ 	]]>
+ 	</select>
+
  		
  	<resultMap id="ArticleDtoMap" type="ArticleDto">
  		<id column="id" property="id" />
@@ -66,6 +66,18 @@
 			)
 	]]>
 	</insert>
+	
+	<delete id="cancelLike" parameterType="map">
+	<![CDATA[
+		DELETE FROM 
+			likes
+		WHERE
+			article_id = #{article_id}
+			&&
+			member_id = #{member_id}
+	]]>
+	</delete>
+	
  </mapper>
  
  

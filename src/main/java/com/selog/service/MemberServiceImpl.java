@@ -1,5 +1,8 @@
 package com.selog.service;
 
+import java.util.List;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -31,6 +34,12 @@ public class MemberServiceImpl implements MemberService {
 	@Override
 	public MemberDto getMemberById(int id) {
 		return mapper.getMemberById(id);
+	}
+
+
+	@Override
+	public List<Map<String, Integer>> getLikes(int memberId) {
+		return mapper.getLikes(memberId);
 	}
 	
 }

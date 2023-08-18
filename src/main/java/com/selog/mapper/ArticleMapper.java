@@ -16,4 +16,6 @@ public interface ArticleMapper {
 
 	public void doLike(Map<String, Object> likesMap);
 
+	public void cancelLike(Map<String, Object> likeMap);
+
 }

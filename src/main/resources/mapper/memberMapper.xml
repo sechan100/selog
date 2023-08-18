@@ -44,4 +44,18 @@
  	]]>
  	</select>
  
+ 
+ 
+ 	<select id="getLikes" parameterType="int" resultType="map">
+ 	<![CDATA[
+ 		SELECT
+			*
+		FROM
+			likes
+		WHERE
+			member_id = #{memberId}
+	]]>
+ 	</select>
+ 	
+ 	
  </mapper>

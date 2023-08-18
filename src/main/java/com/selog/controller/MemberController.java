@@ -1,5 +1,8 @@
 package com.selog.controller;
 
+import java.util.List;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -8,7 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.selog.dto.MemberDto;
-import com.selog.dto.MsgDtoBuilder;
+import com.selog.dto.MsgVo;
 import com.selog.service.MemberService;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -18,12 +21,10 @@ import jakarta.servlet.http.HttpSession;
 @Controller
 public class MemberController {
 
+	
 	@Autowired
 	private MemberService service;
 	
-	
-
-	// ###########[ login ]############################################################################################
 
 	// 로그인 폼 페이지.
 	@GetMapping("/login")
@@ -44,7 +45,6 @@ public class MemberController {
 		
 		// 로그인 id로 기존의 사용자 정보를 DB에서 가져온다.
 		MemberDto registedMember =  service.getMemberByUsername(attemptingLoginMember.getUsername());
-	
 
 		
 		// [로그인 실패]: 계정이 존재하지 않음. -> fail=id (아이디가 없다는 것이 곧 계정이 존재하지 않는다는 의미)
@@ -62,21 +62,26 @@ public class MemberController {
 		// [로그인 성공]
 		} else {
 			
-			// temporary login member setting.
+			// session 객체 생성후, user정보 객체를 세션에 저장.
 			HttpSession session = request.getSession();
-			
 			session.setAttribute("user", registedMember);
+			
+			
+			// 사용자가 좋아요를 누른 게시글 정보들 가져오기.
+			List<Map<String, Integer>> likes  = service.getLikes(registedMember.getId());
+			session.setAttribute("likes", likes);
+			
 			
 			// log
 			System.out.println("=====[ New Login ]============================================================\n");
 			System.out.println(registedMember.toString());
 			System.out.println("\n============================================================================");
 			
+			
 			return "redirect:/";
 		}
 	}
 
-	// ###########[ sign up ]############################################################################################
 
 	// sign up form page.
 	@GetMapping("/signup")
@@ -88,6 +93,7 @@ public class MemberController {
 		return "/member/signupForm";
 	}
 
+	
 	// sign up process
 	@PostMapping("/signupPrcs")
 	public String processSignup(Model model, MemberDto member) {
@@ -117,10 +123,12 @@ public class MemberController {
 		// Service
 		service.insertNewMember(member);
 
-		model.addAttribute("msg",
-			new MsgDtoBuilder()
-				.addMsgTitle(member.getName() + "님, 회원가입이 완료되었습니다!")
-				.addAimUrl("/"));
+		MsgVo msg = new MsgVo();
+			msg.setMsgTitle(member.getName() + "님, 회원가입이 완료되었습니다!");
+			msg.setAimUrl("/");
+		
+		
+		model.addAttribute("msg", msg);
 
 		return "/util/msgPage";
 	}
