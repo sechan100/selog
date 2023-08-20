@@ -32,7 +32,7 @@ public class ArticleController {
 	
 	
 	/*
-	 * 게시글 페이지 처리.
+	 * 게시글 뷰.
 	 */
 	@GetMapping("/@{username}/{memberPageId}")
 	public String showArticle(
@@ -51,7 +51,7 @@ public class ArticleController {
 		ArticleDto article = articleService.getArticleByUri(uri);
 		
 
-		HttpSession session = request.getSession(false);	
+		HttpSession session = request.getSession();	
 		
 		boolean isLiked = false;
 		
@@ -61,23 +61,25 @@ public class ArticleController {
 			@SuppressWarnings("unchecked")
 			List<Map<String, Integer>> likes =  (List<Map<String, Integer>>) session.getAttribute("likes");
 			
-			
-			for(Map<String, Integer> like : likes){
-				
-				// [좋아요를 누른 적이 있다면]: 게시글 아이디가 같으면 해당 게시글에 대한 좋아요 정보가 존재하는 것이다.
-				if(like.get("article_id") == article.getId()){
-					isLiked = true;
-					break;
+			if(likes != null) {
+				for(Map<String, Integer> like : likes){
+					
+					// [좋아요를 누른 적이 있다면]: 게시글 아이디가 같으면 해당 게시글에 대한 좋아요 정보가 존재하는 것이다.
+					if(like.get("article_id") == article.getId()){
+						isLiked = true;
+						break;
+					}
 				}
 			}
-			
 		}
 		model.addAttribute("isLiked", isLiked);
-			
+		System.out.println("==============================================================================");
+		System.out.println(article.getAuthor().toString());
+		System.out.println("==============================================================================");
 		model.addAttribute("article", article);
 			
 		
-		return "/memberPage/articleView";
+		return "/article/articleView";
 	}
 
 	
@@ -94,7 +96,7 @@ public class ArticleController {
 		
 		
 		// session 가져오기. (세션이 없다면 생성하지 않고 null 반환)
-		HttpSession session = request.getSession(false);
+		HttpSession session = request.getSession();
 		
 		
 		// [session에 저장된 user가 존재하는 경우]: 로그인 상태.

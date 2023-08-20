@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html xmlns:th="https://www.thymeleaf.org">
-<head th:replace="/fragments/layoutFragments :: head(title='', cssUrl='/css/memberPage/articleView.css')" />  
+<head th:replace="/fragments/layoutFragments :: head(title='', cssUrl='/css/article/articleView.css')" />  
 <body class="vlg-dark">
-	<nav th:replace="/fragments/layoutFragments :: nav( ${loginedMember} )"></nav>
+	<nav th:replace="/fragments/layoutFragments :: nav( ${session.user} )"></nav>
 
     <div class="main-container">
 
@@ -14,7 +14,7 @@
             <div class="top-info-container">
 
                 <span>
-                    <a th:href="|/@${article.authorUsername}|">[[ ${article.authorUsername} ]]</a>
+                    <a th:href="|/@${article.author.username}|">[[ ${article.author.username} ]]</a>
                     <span>•</span>
                     <span th:text="${article.postDate}"></span>
                 </span>
@@ -36,9 +36,13 @@
             <div class="side-option-container">
                 <div class="side-option-box">
                     <div class="side-option">
-                        <button id="likes-btn">♡</button>
-                        <span>32</span>
-                        <button>♧</button>
+                        <button class="side-btn animate__heartBeat" id="likes-btn">
+                            <img class="love-icon" src="/img/heart_unliked.png" width="25px" height="25px">
+                        </button>
+                        <div class="like-num" th:text="${article.likes}"></div>
+                        <button class="side-btn" id="share-btn">
+                            <img class="share-icon" src="/img/share.png" width="25px" height="25px">
+                        </button>
                     </div>
                 </div>
             </div>
@@ -65,7 +69,14 @@
     </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
-    <script src="/js/memberPage/articleView.js"></script>
+    <script type="text/javascript" src="/js/article/articleView.js"></script>
+    <script th:inline="javascript">
+    /*<![CDATA[*/
 
+        const articleId =  $.parseJSON("[[ ${article.id} ]]");
+        const isLiked = $.parseJSON("[[ ${isLiked} ]]");
+
+    /*]]>*/
+    </script>
 </body>
 </html>

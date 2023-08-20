@@ -12,10 +12,7 @@ public class ArticleDto {
 	private String img;
 	private String postDate;
 	private int authorId;
-	private String authorUsername;
-	private String authorName;
-	private MemberDto author;
 	private int likes;
-	private int hits;
+	private MemberDto author;
 	
 }

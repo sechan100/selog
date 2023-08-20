@@ -4,15 +4,16 @@
   
  <mapper namespace="com.selog.mapper.ArticleMapper">
  
-  	<select id="getArticleByUri" parameterType="Map" resultType="ArticleDto">
+  	<select id="getArticleByUri" parameterType="Map" resultMap="ArticleDtoMap">
  	<![CDATA[
  		SELECT 
- 			* 
+ 			*,
+ 			(SELECT COUNT(*) FROM likes WHERE article_id = article.id) AS likes
  		FROM 
  			article
  		WHERE
- 			   authorUsername = #{username}
- 			&& memberPageId = #{memberPageId}
+ 			   author_id = (SELECT id FROM member WHERE username = #{username})
+ 			&& member_page_id = #{memberPageId}
  	]]>
  	</select>
  	
@@ -30,24 +31,24 @@
  		
  	<resultMap id="ArticleDtoMap" type="ArticleDto">
  		<id column="id" property="id" />
+ 		<result column="member_page_id" property="memberPageId" />
  		<result column="title" property="title" />
  		<result column="content" property="content" />
  		<result column="img" property="img" />
- 		<result column="postDate" property="postDate" />
- 		<result column="authorId" property="authorId" />
+ 		<result column="post_date" property="postDate" />
+ 		<result column="author_id" property="authorId" />
  		<result column="likes" property="likes" />
- 		<result column="hits" property="hits" />
- 		<association column="authorId" property="author" select="getMemberById" />
+ 		<association column="author_id" property="author" select="getMemberById" />
  	</resultMap>
 
 	<select id="getMemberById" parameterType="int" resultType="MemberDto">
 	<![CDATA[
- 		SELECT 
+ 		SELECT
  			*
  		FROM 
  			member
  		WHERE 
- 			id = #{id}
+ 			id = #{author_id}
 	]]>
 	</select>
  	<!-- ************************************************************************ -->

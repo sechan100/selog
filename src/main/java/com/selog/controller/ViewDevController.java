@@ -50,7 +50,6 @@ public class ViewDevController {
 		List<ArticleDto> articles = articleService.getArticles();
 		
 		
-		
 //		// 개발할 때, 서버 재시작 할 때마다 로그인하는 작업을 없애기 위해서 자동적으로 로그인.
 //		MemberDto autoLoginMember =  memberService.getMemberByUsername("sechan");
 //		HttpSession session = request.getSession();

@@ -10,11 +10,11 @@
             
         <div class="article-box text-white" th:each="article : ${articles}">
 
-            <a th:href="|/@${article.getAuthorUsername()}/${article.getMemberPageId()}|">
+            <a th:href="|/@${article.author.username}/${article.getMemberPageId()}|">
                 <img th:src="${article.getImg()}" width="100%" />
             </a>  
 
-            <a th:href="|/@${article.getAuthorUsername()}/${article.getMemberPageId()}|">
+            <a th:href="|/@${article.author.username}/${article.getMemberPageId()}|">
                 <section>
                     <h4 th:text="${article.getTitle()}"></h4>
                     <p th:text="${article.getContent()}"></p>
@@ -25,7 +25,7 @@
                 </section>
             </a>  
 
-            <a th:href="|/@${article.getAuthorUsername()}/${article.getMemberPageId()}|">
+            <a th:href="|/@${article.author.username}/${article.getMemberPageId()}|">
                 <div class="sub-bar"></div>
             </a>  
 
