@@ -18,7 +18,6 @@
  	</select>
  	
  	
- 	<!--****************** article과 author(MemberDto 객체)를 같이 매핑해서 가져오기. ******************-->
  	<select id="getArticles" resultMap="ArticleDtoMap">
  	<![CDATA[
  		SELECT 
@@ -39,7 +38,9 @@
  		<result column="author_id" property="authorId" />
  		<result column="likes" property="likes" />
  		<association column="author_id" property="author" select="getMemberById" />
+ 		<collection column="id" property="comments" select="getComment" />
  	</resultMap>
+
 
 	<select id="getMemberById" parameterType="int" resultType="MemberDto">
 	<![CDATA[
@@ -51,8 +52,29 @@
  			id = #{author_id}
 	]]>
 	</select>
- 	<!-- ************************************************************************ -->
+	
+	
+	<select id="getComment" parameterType="int" resultMap="CommentDtoMap">
+	<![CDATA[
+ 		SELECT
+ 			*
+ 		FROM 
+ 			comment
+ 		WHERE 
+ 			article_id = #{article_id}
+	]]>
+	</select>
 
+
+	<resultMap id="CommentDtoMap" type="CommentDto">
+		<id column="id" property="id" />
+		<result column="content" property="content" />
+		<result column="article_id" property="articleId" />
+		<result column="member_id" property="memberId" />
+		<result column="reg_date" property="regDate" />
+		<association column="member_id" property="author" select="getMemberById" />
+	
+	</resultMap>
 
 	<insert id="doLike" parameterType="Map">
 	<![CDATA[
@@ -67,6 +89,7 @@
 			)
 	]]>
 	</insert>
+	
 	
 	<delete id="cancelLike" parameterType="map">
 	<![CDATA[

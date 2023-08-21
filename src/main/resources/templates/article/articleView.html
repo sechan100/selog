@@ -61,10 +61,25 @@
 
             <div class="content-box" th:utext="${article.content}"></div>
 
+            <br><br><br><br>
+
+            <div class="comment-container">
+
+                <div class="comment-box" th:each="comment : ${article.comments}">
+
+                    <div class="comment-author">
+                        <a th:href="|/@${comment.author.username}|" th:text="${comment.author.name}"></a>
+                        <div th:text="${comment.regDate}"></div>
+                    </div>
+                    <br>
+                    <div class="comment-content" th:text="${comment.content}"></div>
+                </div>
+
+            </div>
+
+
+
         </div>
-
-        
-
 
     </div>
 

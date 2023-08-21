@@ -32,7 +32,7 @@ public class ArticleController {
 	
 	
 	/*
-	 * 게시글 뷰.
+	 * article detail view
 	 */
 	@GetMapping("/@{username}/{memberPageId}")
 	public String showArticle(
@@ -42,7 +42,7 @@ public class ArticleController {
 		, Model model) {
 		
 		
-		// Map으로 uri를 전달. (map으로 전달해야 mybatis의 parameterType을 여러개 사용가능)
+		// article의 uri를 Map에 넣어서 mybatis mapper의 parameter로 사용가능하도록 가공.
 		Map<String, Object> uri = new HashMap<>();
 			uri.put("username", username);
 			uri.put("memberPageId", memberPageId);
@@ -72,10 +72,10 @@ public class ArticleController {
 				}
 			}
 		}
+		
+		
+		
 		model.addAttribute("isLiked", isLiked);
-		System.out.println("==============================================================================");
-		System.out.println(article.getAuthor().toString());
-		System.out.println("==============================================================================");
 		model.addAttribute("article", article);
 			
 		
@@ -182,6 +182,10 @@ public class ArticleController {
 		
 		return String.format("redirect:/@%s/%d", username, memberPageId);
 	}
+	
+	
+	
+	
 }
 
 
