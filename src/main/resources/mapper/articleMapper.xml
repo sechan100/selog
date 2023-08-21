@@ -4,6 +4,7 @@
   
  <mapper namespace="com.selog.mapper.ArticleMapper">
  
+
   	<select id="getArticleByUri" parameterType="Map" resultMap="ArticleDtoMap">
  	<![CDATA[
  		SELECT 
@@ -76,6 +77,7 @@
 	
 	</resultMap>
 
+
 	<insert id="doLike" parameterType="Map">
 	<![CDATA[
 		INSERT INTO
@@ -89,7 +91,7 @@
 			)
 	]]>
 	</insert>
-	
+
 	
 	<delete id="cancelLike" parameterType="map">
 	<![CDATA[
@@ -101,6 +103,59 @@
 			member_id = #{member_id}
 	]]>
 	</delete>
+	
+	
+	<insert id="insertArticle" parameterType="ArticleDto">
+	<![CDATA[
+		INSERT INTO
+			article
+			( 
+			  member_page_id
+			, title
+			, content
+			, post_date
+			, author_id
+			) 
+			VALUES
+			( 
+			  (SELECT COUNT(*) FROM (SELECT member_page_id, author_id FROM article) article WHERE author_id = 1) + 1
+			, #{title}
+			, #{content}
+			, NOW()
+			, #{authorId}
+			)
+	]]>
+	</insert>
+	
+	
+	<insert id="insertComment" parameterType="CommentDto">
+	<![CDATA[
+		INSERT INTO
+			comment
+			( 
+			  content
+			, article_id
+			, member_id
+			, reg_date
+			) 
+			VALUES
+			( 
+			#{content}
+			, (
+				SELECT 
+					id 
+				FROM 
+					article 
+				WHERE
+					author_id = (SELECT id FROM member WHERE username = #{articleUri.username})
+				&&  member_page_id = #{articleUri.memberPageId}
+				)
+			, #{memberId}
+			, NOW()
+			)
+	]]>
+	</insert>
+	
 	
  </mapper>
  

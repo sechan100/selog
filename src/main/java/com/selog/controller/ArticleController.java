@@ -9,9 +9,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.selog.dto.ArticleDto;
+import com.selog.dto.CommentDto;
 import com.selog.dto.MemberDto;
 import com.selog.dto.MsgVo;
 import com.selog.service.ArticleService;
@@ -77,6 +79,7 @@ public class ArticleController {
 		
 		model.addAttribute("isLiked", isLiked);
 		model.addAttribute("article", article);
+		model.addAttribute("newComment", new CommentDto());
 			
 		
 		return "/article/articleView";
@@ -106,7 +109,7 @@ public class ArticleController {
 			@SuppressWarnings("unchecked")
 			List<Map<String, Integer>> likes =  (List<Map<String, Integer>>) session.getAttribute("likes");
 			
-			
+
 			boolean isLiked = false;
 			
 			
@@ -172,20 +175,101 @@ public class ArticleController {
 			return "/util/msgPage";
 		}
 		
-		
-		Map<String, Object> uri = new HashMap<>();
-			uri.put("username", username);	
-			uri.put("memberPageId", memberPageId);
-			
-		ArticleDto article = articleService.getArticleByUri(uri);
-		model.addAttribute("article", article);
-		
 		return String.format("redirect:/@%s/%d", username, memberPageId);
 	}
 	
 	
+	/*
+	 * article write logic.
+	 */
+	@GetMapping("/write")
+	public String writeArticleForm(Model model, HttpServletRequest request) {
+		
+		// session 가져오기.
+		HttpSession session = request.getSession();
+				
+				
+		// [session 존재하지 않음]
+		if(session.getAttribute("user") == null){
+			
+			// 메세지 객체를 생성해서 로그인 후 이용 가능 안내 페이지로 보냄.
+			MsgVo msg = new MsgVo();
+			model.addAttribute("msg", msg);
+			
+			return "/util/msgPage";
+		}
+		
+		model.addAttribute("article", new ArticleDto());
+		
+		return "/article/writeForm";
+	}
 	
 	
+	/*
+	 * post article
+	 */
+	@PostMapping("/postArticle")
+	public String postArticle(HttpServletRequest request, ArticleDto article) {
+		
+		MemberDto user = (MemberDto) request.getSession().getAttribute("user");
+		
+		// article 객체에 작성자 정보 초기화.
+		article.setAuthorId(user.getId());
+		article.setAuthor(user);
+		
+		articleService.postArticle(article);
+		
+		
+		
+		
+		return "redirect:/selog";
+	}
+
+
+	/*
+	 * add comment
+	 */
+	@PostMapping("/@{username}/{memberPageId}/addComment")
+	public String addComment(
+		@PathVariable String username,
+		@PathVariable int memberPageId,
+		CommentDto newComment,
+		HttpServletRequest request,
+		Model model
+		) {
+		
+		// session 가져오기.
+		MemberDto user = (MemberDto) request.getSession().getAttribute("user");
+				
+				
+		// [session 존재하지 않을 경우.]
+		if(user == null){
+			
+			// 메세지 객체를 생성해서 로그인 후 이용 가능 안내 페이지로 보냄.
+			MsgVo msg = new MsgVo();
+			model.addAttribute("msg", msg);
+			
+		
+			
+			return "/util/msgPage";
+		}
+		
+		Map<String, Object> articleUri = new HashMap<>();
+			articleUri.put("username", username);
+			articleUri.put("memberPageId", memberPageId);
+		
+		
+		newComment.setMemberId(user.getId());
+		newComment.setAuthor(user);
+		newComment.setArticleUri(articleUri);
+		
+		articleService.addComment(newComment);
+		
+		
+		
+		
+		return String.format("redirect:/@%s/%d", username, memberPageId);
+	}
 }
 
 

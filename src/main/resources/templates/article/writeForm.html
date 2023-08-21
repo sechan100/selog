@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org">
+<head th:replace="/fragments/layoutFragments :: head(title='', cssUrl='/css/article/writeForm.css')" />  
+<body class="vlg-dark">
+
+    <div class="container">
+
+
+
+
+        <form action="#" th:action="@{/postArticle}" method="post" th:object="${article}">
+            <input type="text" placeholder="제목을 입력하세요" th:field="*{title}">
+
+            <br><br>
+
+            <textarea placeholder="당신의 이야기를 적어보세요..." th:field="*{content}"></textarea>
+
+            <div class="btn-box">
+                <input class="vlg-btn" type="button" value="←나가기">
+                <input class="vlg-btn-green" type="submit" value="출간하기">
+            </div>
+        </form>
+
+
+
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
+</body>
+</html>

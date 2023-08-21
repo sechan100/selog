@@ -151,9 +151,40 @@
     text-align: center;
 }
 
+.comment-container{
+    margin-top: 50px;
+}
+
 .comment-box{
     border-top: 1px solid #2A2A2A;
     padding: 20px 0;
 }
+
+div.comment-container > form{
+    margin-top: 10px;
+    text-align: right;
+}
+
+
+div.comment-container > form > input[type="submit"]{
+    margin: 20px;
+}
+
+form > textarea{
+    background-color: var(--vlg-bg);
+    border: 1px solid #2A2A2A;
+    border-radius: 5px;
+    width: 100%;
+    height: 100px;
+    color: whitesmoke;
+    resize: none;
+    font-size: 17px;
+    padding: 15px;
+}
+
+form > textarea:focus{
+    outline: none;
+}
+
 
 

@@ -65,6 +65,14 @@
 
             <div class="comment-container">
 
+                <div th:if="${article.comments} != null" th:text="|${article.comments.size()}개의 댓글|"></div>
+                <div th:unless="${article.comments} != null" th:text="|0개의 댓글|"></div>
+
+                <form th:action="|/@${article.author.username}/${article.memberPageId}/addComment|" method="post" th:object="${newComment}">
+                    <textarea th:field="*{content}" placeholder="댓글을 작성하세요"></textarea>
+                    <input class="vlg-btn-green" type="submit" value="댓글 작성">
+                </form>
+
                 <div class="comment-box" th:each="comment : ${article.comments}">
 
                     <div class="comment-author">

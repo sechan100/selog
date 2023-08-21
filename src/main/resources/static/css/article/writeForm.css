@@ -1,0 +1,38 @@
+:root {
+    --vlg-dark : #121212;
+    --vlg-green: #63E6BE;
+    --vlg-green-hover: #4db596;
+    --vlg-bg: #272727;
+    }
+
+form{
+    margin-top: 50px;
+}
+
+form > input[type="text"]{
+    background-color: var(--vlg-dark);
+    border: none;
+    width: 100%;
+    height: 50px;
+    color: whitesmoke;
+    font-size: 40px;
+}
+
+form > textarea{
+    background-color: var(--vlg-dark);
+    border: none;
+    width: 100%;
+    height: 600px;
+    color: whitesmoke;
+    resize: none;
+    font-size: 20px;
+}
+
+form > input[type="text"]:focus,
+form > textarea:focus{
+    outline: none;
+}
+
+.btn-box{
+    text-align: right;
+}

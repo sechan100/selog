@@ -6,6 +6,7 @@ import java.util.Map;
 import org.springframework.stereotype.Service;
 
 import com.selog.dto.ArticleDto;
+import com.selog.dto.CommentDto;
 
 
 
@@ -19,5 +20,9 @@ public interface ArticleService {
 	public void doLike(Map<String, Object> likesMap);
 
 	public void cancelLike(Map<String, Object> likeMap);
+
+	public void postArticle(ArticleDto article);
+
+	public void addComment(CommentDto comment);
 
 }

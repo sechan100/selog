@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.selog.dto.ArticleDto;
+import com.selog.dto.CommentDto;
 import com.selog.mapper.ArticleMapper;
 
 
@@ -40,6 +41,18 @@ public class ArticleServiceImpl implements ArticleService{
 	@Override
 	public void cancelLike(Map<String, Object> likeMap) {
 			articleMapper.cancelLike(likeMap);
+	}
+
+
+	@Override
+	public void postArticle(ArticleDto article) {
+		articleMapper.insertArticle(article);
+	}
+
+
+	@Override
+	public void addComment(CommentDto comment) {
+		articleMapper.insertComment(comment);
 	}
 	
 }

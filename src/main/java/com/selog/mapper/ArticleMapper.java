@@ -6,6 +6,7 @@ import java.util.Map;
 import org.apache.ibatis.annotations.Mapper;
 
 import com.selog.dto.ArticleDto;
+import com.selog.dto.CommentDto;
 
 @Mapper
 public interface ArticleMapper {
@@ -17,5 +18,9 @@ public interface ArticleMapper {
 	public void doLike(Map<String, Object> likesMap);
 
 	public void cancelLike(Map<String, Object> likeMap);
+
+	public void insertArticle(ArticleDto article);
+
+	public void insertComment(CommentDto Comment);
 
 }
