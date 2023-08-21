@@ -11,6 +11,7 @@ public class ArticleDto {
 	private int memberPageId;
 	private String title;
 	private String content;
+	private String summarizedContent;
 	private String img;
 	private String postDate;
 	private int authorId;

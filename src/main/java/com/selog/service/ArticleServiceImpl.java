@@ -22,7 +22,7 @@ public class ArticleServiceImpl implements ArticleService{
 	
 	@Override
 	public List<ArticleDto> getArticles() {
-		return articleMapper.getArticles();
+		return articleMapper.getSummarizedArticles();
 	}
 
 

@@ -27,6 +27,18 @@
  			article		
  	]]>
  	</select>
+ 	
+ 	
+ 	<select id="getSummarizedArticles" resultMap="ArticleDtoMap">
+ 	<![CDATA[
+ 		SELECT 
+ 			*, 
+ 			CONCAT( LEFT(content, 85), '...' ) AS summarizedContent
+ 		FROM
+ 			article		
+ 	]]>
+ 	</select>
+ 	
 
  		
  	<resultMap id="ArticleDtoMap" type="ArticleDto">

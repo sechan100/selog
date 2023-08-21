@@ -194,6 +194,8 @@ public class ArticleController {
 			
 			// 메세지 객체를 생성해서 로그인 후 이용 가능 안내 페이지로 보냄.
 			MsgVo msg = new MsgVo();
+				msg.setMsgContent("게시글을 작성하시려면 로그인 해주십시오.");
+			
 			model.addAttribute("msg", msg);
 			
 			return "/util/msgPage";

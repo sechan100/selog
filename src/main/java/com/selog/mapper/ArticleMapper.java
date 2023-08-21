@@ -13,6 +13,8 @@ public interface ArticleMapper {
 
 	public List<ArticleDto> getArticles();
 	
+	public List<ArticleDto> getSummarizedArticles();
+	
 	public ArticleDto getArticleByUri(Map<String, Object> uri);
 
 	public void doLike(Map<String, Object> likesMap);
