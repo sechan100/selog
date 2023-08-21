@@ -130,7 +130,7 @@
 			) 
 			VALUES
 			( 
-			  (SELECT COUNT(*) FROM (SELECT member_page_id, author_id FROM article) article WHERE author_id = 1) + 1
+			  (SELECT COUNT(*) FROM (SELECT member_page_id, author_id FROM article) article WHERE author_id = #{authorId}) + 1
 			, #{title}
 			, #{content}
 			, NOW()
